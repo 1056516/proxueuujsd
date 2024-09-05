@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session Proxy</title>
+</head>
+<body>
+    <h1>Proxy Session Manager</h1>
+    <button id="createSession">Create Session</button>
+    <input type="text" id="searchQuery" placeholder="Search Google">
+    <button id="searchButton">Search</button>
+
+    <script>
+        document.getElementById('createSession').onclick = async () => {
+            const response = await fetch('http://localhost:3000/create-session', { method: 'POST' });
+            const { sessionId } = await response.json();
+            document.cookie = `sessionId=${sessionId};`;
+            alert('Session created: ' + sessionId);
+        };
+
+        document.getElementById('searchButton').onclick = () => {
+            const query = document.getElementById('searchQuery').value;
+            window.open(`http://localhost:3000/search?q=${encodeURIComponent(query)}`, '_blank');
+        };
+    </script>
+</body>
+</html>
